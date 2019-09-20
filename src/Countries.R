@@ -146,21 +146,28 @@ gapminder %>% filter(country == "Australia") %>%
   write_csv("res/By_Country.csv")
 
 #Challenge
-#installed.package("tidyverse")
-# Read in data
-# Keep only the data for 1987 and 2007
-# calculation the life expectance for all the countries in 1987 and 2007
-# look at the top ten countries in 1987 and 2007
-library(tidyverse)
+library(tidyverse) #installed.package("tidyverse")
 read_csv("data/gapminder.csv")
-gapminder <- read_csv("data/gapminder.csv")
-gap19872007 <- filter(gapminder,year == 1987 | year == 2007)
-gap19872007_group <-  group_by(gap19872007,year)
-gapv4 <- arrange(gap19872007_group, year, desc(lifeExp))
-gapv5 <- top_n(gapv4,10,lifeExp)
-gapv6 <- group_by(gapv5,country)
-gapv7 <- summarise(gapv6,num_rows = n())
-filter(gapv7,num_rows == 2)
+gapminder <- read_csv("data/gapminder.csv") # Read in data
+gapV1 <- filter(gapminder,year == 1987 | year == 2007) # Keep only the data for 1987 and 2007
+gapV1_group <-  group_by(gapV1,year) #group by year
+gapv4 <- arrange(gapV1_group, year, desc(lifeExp)) # sorting the lifeExp for each year
+gapv5 <- top_n(gapv4,10,lifeExp) # keep only the top 10 lifeExp for each year
+gapv6 <- group_by(gapv5,country) #group by country
+gapv7 <- summarise(gapv6,num_rows = n()) # count the number in each country
+filter(gapv7,num_rows == 2) # only countries appear twice
 
 
-
+#Challenge
+library(tidyverse) #installed.package("tidyverse")
+read_csv("data/gapminder.csv")
+gapminder <- read_csv("data/gapminder.csv") # Read in data
+gapminder %>%  filter(year == 1987 | year == 2007) %>% # Keep only the data for 1987 and 2007
+    group_by(year) %>% #group by year
+    arrange(year, desc(lifeExp)) %>% # sorting the lifeExp for each year
+    top_n(10,lifeExp) %>% # keep only the top 10 lifeExp for each year
+    group_by(country) %>% #group by country
+    summarise(num_rows = n()) %>% # count the number in each country
+    filter(num_rows == 2) %>% # only countries appear twice
+    select(country) %>% 
+    write_csv("res/To10_Countries.csv")
