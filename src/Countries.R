@@ -92,4 +92,55 @@ by_continent <- group_by(gapminder, continent)
 by_continent 
 summarise(by_continent, mean_life_exp = mean(pop), median_life_sd = median(pop))
 gapminder %>% group_by(continent) %>% 
-  summarise(mean(pop), median_life_sd = median(pop))
+summarise(mean(pop), median_life_sd = median(pop))
+
+#arrange
+arrange(gapminder, gdpPercap)
+arrange(gapminder, desc(gdpPercap))
+Country_life_Exp <- summarise(by_country, mean_life_exp = mean(lifeExp))
+
+arrange(Country_life_Exp, mean_life_exp) %>% 
+  filter( mean_life_exp == min(mean_life_exp))
+arrange(Country_life_Exp, desc(mean_life_exp)) %>% 
+  filter( mean_life_exp == max(mean_life_exp))
+by_continent <- group_by(gapminder, continent, year)
+
+arrange(Country_life_Exp, mean_life_exp) %>% 
+  filter( mean_life_exp == min(mean_life_exp ) | mean_life_exp == max(mean_life_exp))
+
+
+by_continent 
+summarised_gdp <- summarise(by_continent, mean_gdp_per_cap = mean(gdpPercap))
+summarised_gdp
+arrange(summarised_gdp,desc(year),desc(mean_gdp_per_cap))
+arrange(summarised_gdp,desc(mean_gdp_per_cap),desc(year))
+
+
+summarise(gapminder, num_rows = n())
+
+COUNTS <- summarise(by_country, num_rows = n())
+
+view(COUNTS)
+
+summarise(by_country, num_rows = n()) %>% view()
+
+#Challenge
+#installed.package("tidyverse")
+library(tidyverse)
+read_csv("data/gapminder.csv")
+gapminder <- read_csv("data/gapminder.csv")
+gapminder %>% filter(year == 1972) %>% 
+  arrange(desc(pop))
+#  row_number(6)
+
+# read in excel files
+library(readxl)
+read_excel("data/gapminder.xlsx")
+read_excel("data/gapminder.xlsx", range = "A1:E4")
+read_excel("data/gapminder.xlsx", sheet = "gapminder")
+
+# writing data out
+by_country
+write_csv(by_country,"res/By_Country.csv")
+gapminder %>% filter(country == "Australia") %>% 
+  write_csv("res/By_Country.csv")
