@@ -154,9 +154,13 @@ gapminder %>% filter(country == "Australia") %>%
 library(tidyverse)
 read_csv("data/gapminder.csv")
 gapminder <- read_csv("data/gapminder.csv")
-gapminder %>% filter(year == 1987 | year == 2007) %>% 
-  arrange(desc(year),desc(lifeExp))
-gapminder %>% filter(year == 1987 | year == 2007) %>% 
-  arrange(year,desc(lifeExp))
+gap19872007 <- filter(gapminder,year == 1987 | year == 2007)
+gap19872007_group <-  group_by(gap19872007,year)
+gapv4 <- arrange(gap19872007_group, year, desc(lifeExp))
+gapv5 <- top_n(gapv4,10,lifeExp)
+gapv6 <- group_by(gapv5,country)
+gapv7 <- summarise(gapv6,num_rows = n())
+filter(gapv7,num_rows == 2)
+
 
 
