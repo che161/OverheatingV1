@@ -144,3 +144,19 @@ by_country
 write_csv(by_country,"res/By_Country.csv")
 gapminder %>% filter(country == "Australia") %>% 
   write_csv("res/By_Country.csv")
+
+#Challenge
+#installed.package("tidyverse")
+# Read in data
+# Keep only the data for 1987 and 2007
+# calculation the life expectance for all the countries in 1987 and 2007
+# look at the top ten countries in 1987 and 2007
+library(tidyverse)
+read_csv("data/gapminder.csv")
+gapminder <- read_csv("data/gapminder.csv")
+gapminder %>% filter(year == 1987 | year == 2007) %>% 
+  arrange(desc(year),desc(lifeExp))
+gapminder %>% filter(year == 1987 | year == 2007) %>% 
+  arrange(year,desc(lifeExp))
+
+
