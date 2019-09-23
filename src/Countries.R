@@ -171,3 +171,13 @@ gapminder %>%  filter(year == 1987 | year == 2007) %>% # Keep only the data for 
     filter(num_rows == 2) %>% # only countries appear twice
     select(country) %>% 
     write_csv("res/To10_Countries.csv")
+
+library(tidyverse)
+read_table("data/Result2_cutdown.txt")
+?read_fwf
+read_fwf("data/Result2_cutdown.txt",fwf_cols(Nvalid = 7, UnitNo = 8, StreetNo = 8, StreetType = 16, StreetName = 48, Suburb = 24, WallType = 20, SubDir = 100, ScratchName = 110))
+read_fwf("data/Result2_Explain.txt",skip = 1,fwf_cols(Nvalid = 7, UnitNo = 8, StreetNo = 8, 
+                                                      StreetType = 16, StreetName = 48, Suburb = 24, WallType = 20,  CZ = 2, SubDir = 98, ScratchName = NA))
+overheat_result2 <- read_fwf("data/Result2_Explain.txt",skip = 1, fwf_cols(Nvalid = 7, UnitNo = 8, 
+                          StreetNo = 8, StreetType = 16, StreetName = 48, Suburb = 24, WallType = 20, CZ = 2, BL = 1,SubDir = 97, ScratchName = NA))
+overheat_result2
