@@ -184,3 +184,82 @@ overheat_result2 %>% group_by(WallType) %>% summarise(num_rows = n()) %>% write_
 overheat_result2 <- read_fwf("data/Result2.txt",fwf_cols(Nvalid = 7, UnitNo = 8, 
                                                                            StreetNo = 8, StreetType = 16, StreetName = 48, Suburb = 24, WallType = 20, CZ = 2, BL = 1,SubDir = 97, ScratchName = NA))
 overheat_result2 %>% group_by(WallType) %>% summarise(num_rows = n()) %>% write_csv("res/NT_Construction.csv")
+
+#Challenge 20190925
+library(tidyverse) #installed.package("tidyverse")
+read_csv("data/gapminder.csv")
+gapminder <- read_csv("data/gapminder.csv") # Read in data
+gapminder
+gapminder %>% filter(year == 1957) %>%
+  group_by(continent) %>%
+  summarise(max_gdpPerCap = max(gdpPercap)) %>% # count the number in each country
+  write_csv("res/ContinentMaxgdpPercap.csv")
+
+#Combine rows
+gapminder_2012 <- read_csv("data/gapminder_2012.csv") # Read in data
+gapminder_2012
+?bind_rows()
+gapminder_all <- bind_rows(gapminder,gapminder_2012)
+gapminder_all
+bind_rows(gapminder,gapminder_2012, .id = "country")
+
+rename_2012 <- rename(gapminder_2012, population = pop)
+rename_2012
+mismatched_names <- bind_rows(gapminder,rename_2012)
+mismatched_names
+tail(mismatched_names)
+
+#joins lesson
+?join
+example_vector <- c(1,4,2,7)
+example_vector
+string_vector <- c('hello', 'this', 'is', 'vector')
+string_vector
+example_vector[3]
+resul <- inner_join(gapminder,rename_2012)
+resul
+df1 <- tibble(sample = c(1,2,3), measure1 = c(4.2,5.3,6.1))
+df1
+df2 <- tibble(sample = c(1,3,4), measure2 = c(7.8,6.4,9.0))
+df2
+
+inner_join(df1,df2)
+full_join(df1,df2)
+left_join(df1,df2)
+
+df3 <- tibble(ID = c(1,2,4), measure3 = c(4.7,34,2.6))
+full_join(df1,df3, by = c("sample" = "ID"))
+full_join(df1,df2, by = c("sample"))
+full_join(df1,df3, by = c("sample" = "ID", "measure1" = "measure3"))
+left_join(df1,df3, by = c("sample" = "ID", "measure1" = "measure3"))
+inner_join(df1,df3, by = c("sample" = "ID", "measure1" = "measure3"))
+?nest_join
+storms
+?bind_rows
+ 
+#tidy up data
+cows <- tibble(id = c(1,2,3), weight1 = c(203,227,193), weight2 = c(365,344,329))
+
+#gather and spread
+
+cows_tidy <-  gather(cows,rep, weight, -id)
+
+cows_tidy %>% arrange(id)
+
+spread(cows_tidy, rep, weight)
+
+read_csv("data/ALL-WINDOWS_2.3.3.13.8.2.csv", col_names = FALSE )
+
+spread(cows_tidy, key = rep, value = weight)
+table4a
+table4a <-  gather(table4a, year, val, -country)
+table4a <-  spread(table4a, year, val)
+table4a
+
+table2
+spread(table2,type,count)
+cows
+cow_with_breed <- cows %>% mutate(id = c("1_A", "2_A", "3_B"))
+cow_with_breed
+separate(cow_with_breed, col=id, into = c("ID", "breed"), sep = "_")
+separate(cow_with_breed, col=id, into = c("ID", "breed"), "_")
